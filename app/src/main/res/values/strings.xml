@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Chuck Dagger</string>
+    <string name="placeholder">Getting joke...</string>
+</resources>
