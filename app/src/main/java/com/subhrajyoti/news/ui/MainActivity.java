@@ -35,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
         joke.enqueue(new Callback<JokeModel>() {
             @Override
             public void onResponse(Call<JokeModel> call, Response<JokeModel> response) {
-                textView.setText(response.body().getJoke());
+                String joke = response.body().getJoke();
+                textView.setText(joke.replaceAll("&quot;", "\""));
                 Log.d("TAG",response.body().getJoke());
 
             }
