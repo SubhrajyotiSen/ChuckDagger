@@ -5,10 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.subhrajyoti.news.JokeModel;
+import com.subhrajyoti.news.model.JokeModel;
 import com.subhrajyoti.news.MyApplication;
 import com.subhrajyoti.news.R;
-import com.subhrajyoti.news.RestAPI;
+import com.subhrajyoti.news.retrofit.RestAPI;
 
 import javax.inject.Inject;
 

@@ -4,8 +4,8 @@ import android.app.Application;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.subhrajyoti.news.MyDeserializer;
-import com.subhrajyoti.news.JokeModel;
+import com.subhrajyoti.news.retrofit.MyDeserializer;
+import com.subhrajyoti.news.model.JokeModel;
 
 import javax.inject.Singleton;
 
