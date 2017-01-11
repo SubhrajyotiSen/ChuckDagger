@@ -43,4 +43,7 @@ dependencies {
     //Gson
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.1'
+
+    compile 'com.android.support:design:25.1.0'
+
 }
