@@ -1,4 +1,4 @@
-package com.subhrajyoti.news;
+package com.subhrajyoti.chuckdagger;
 
 import org.junit.Test;
 

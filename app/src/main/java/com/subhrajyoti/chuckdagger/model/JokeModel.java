@@ -1,4 +1,4 @@
-package com.subhrajyoti.news.model;
+package com.subhrajyoti.chuckdagger.model;
 
 public class JokeModel {
 

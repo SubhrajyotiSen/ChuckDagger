@@ -1,4 +1,4 @@
-package com.subhrajyoti.news.dagger.module;
+package com.subhrajyoti.chuckdagger.dagger.module;
 
 import android.app.Application;
 

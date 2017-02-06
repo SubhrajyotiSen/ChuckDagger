@@ -1,4 +1,4 @@
-package com.subhrajyoti.news.ui;
+package com.subhrajyoti.chuckdagger.ui;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -13,10 +13,10 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.subhrajyoti.news.MyApplication;
-import com.subhrajyoti.news.R;
-import com.subhrajyoti.news.model.JokeModel;
-import com.subhrajyoti.news.retrofit.RestAPI;
+import com.subhrajyoti.chuckdagger.MyApplication;
+import com.subhrajyoti.chuckdagger.R;
+import com.subhrajyoti.chuckdagger.model.JokeModel;
+import com.subhrajyoti.chuckdagger.retrofit.RestAPI;
 
 import javax.inject.Inject;
 

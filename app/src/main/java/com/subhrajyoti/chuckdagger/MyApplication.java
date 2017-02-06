@@ -1,11 +1,11 @@
-package com.subhrajyoti.news;
+package com.subhrajyoti.chuckdagger;
 
 import android.app.Application;
 
-import com.subhrajyoti.news.dagger.component.DaggerNetComponent;
-import com.subhrajyoti.news.dagger.component.NetComponent;
-import com.subhrajyoti.news.dagger.module.AppModule;
-import com.subhrajyoti.news.dagger.module.NetModule;
+import com.subhrajyoti.chuckdagger.dagger.component.DaggerNetComponent;
+import com.subhrajyoti.chuckdagger.dagger.component.NetComponent;
+import com.subhrajyoti.chuckdagger.dagger.module.AppModule;
+import com.subhrajyoti.chuckdagger.dagger.module.NetModule;
 
 public class MyApplication extends Application {
 

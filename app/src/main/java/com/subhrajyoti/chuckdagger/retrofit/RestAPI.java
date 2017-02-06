@@ -1,6 +1,6 @@
-package com.subhrajyoti.news.retrofit;
+package com.subhrajyoti.chuckdagger.retrofit;
 
-import com.subhrajyoti.news.model.JokeModel;
+import com.subhrajyoti.chuckdagger.model.JokeModel;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -1,11 +1,11 @@
-package com.subhrajyoti.news.retrofit;
+package com.subhrajyoti.chuckdagger.retrofit;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import com.subhrajyoti.news.model.JokeModel;
+import com.subhrajyoti.chuckdagger.model.JokeModel;
 
 import java.lang.reflect.Type;
 

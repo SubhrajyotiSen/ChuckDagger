@@ -1,4 +1,4 @@
-package com.subhrajyoti.news;
+package com.subhrajyoti.chuckdagger;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
