@@ -11,7 +11,7 @@
         android:name="com.subhrajyoti.chuckdagger.MyApplication"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.subhrajyoti.chuckdagger.ui.MainActivity">
+        <activity android:name="com.subhrajyoti.chuckdagger.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -5,7 +5,7 @@ import android.app.Application;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.subhrajyoti.chuckdagger.dagger.scope.ActivityScope;
-import com.subhrajyoti.chuckdagger.model.JokeModel;
+import com.subhrajyoti.chuckdagger.mvp.model.JokeModel;
 import com.subhrajyoti.chuckdagger.retrofit.MyDeserializer;
 
 import dagger.Module;

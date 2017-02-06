@@ -5,7 +5,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import com.subhrajyoti.chuckdagger.model.JokeModel;
+import com.subhrajyoti.chuckdagger.mvp.model.JokeModel;
 
 import java.lang.reflect.Type;
 

@@ -1,4 +1,4 @@
-package com.subhrajyoti.chuckdagger.ui;
+package com.subhrajyoti.chuckdagger;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -6,38 +6,36 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.subhrajyoti.chuckdagger.MyApplication;
-import com.subhrajyoti.chuckdagger.R;
 import com.subhrajyoti.chuckdagger.dagger.component.DaggerNetworkComponent;
 import com.subhrajyoti.chuckdagger.dagger.component.NetworkComponent;
 import com.subhrajyoti.chuckdagger.dagger.module.NetModule;
-import com.subhrajyoti.chuckdagger.model.JokeModel;
+import com.subhrajyoti.chuckdagger.mvp.model.JokeModel;
+import com.subhrajyoti.chuckdagger.mvp.presenter.MainPresenter;
+import com.subhrajyoti.chuckdagger.mvp.view.MainView;
 import com.subhrajyoti.chuckdagger.retrofit.RestAPI;
 
 import javax.inject.Inject;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainView {
 
     @Inject
     Retrofit retrofit;
-    private TextView textView;
-    private ProgressBar progressBar;
-    private FloatingActionButton floatingActionButton;
-    private Toolbar toolbar;
-    private Call<JokeModel> joke;
+    TextView textView;
+    ProgressBar progressBar;
+    FloatingActionButton floatingActionButton;
+    Toolbar toolbar;
     private final String URL = "http://api.icndb.com/";
+    private MainPresenter mainPresenter;
+    private Call<JokeModel> jokeModelCall;
 
 
 
@@ -50,21 +48,23 @@ public class MainActivity extends AppCompatActivity {
                 .netModule(new NetModule(URL))
                 .applicationComponent(MyApplication.get(this).getApplicationComponent())
                 .build();
-        networkComponent.inject(this);
+        networkComponent.injectMainActivity(this);
+
+        mainPresenter = new MainPresenter(this);
 
         textView = (TextView) findViewById(R.id.textView);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        jokeModelCall = retrofit.create(RestAPI.class).getJoke();
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                newJoke();
+                mainPresenter.newJoke(jokeModelCall);
             }
         });
 
-        newJoke();
 
     }
 
@@ -99,26 +99,26 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void newJoke(){
-        joke = retrofit.create(RestAPI.class).getJoke();
-        textView.setVisibility(View.INVISIBLE);
-        progressBar.setVisibility(View.VISIBLE);
-        joke.enqueue(new Callback<JokeModel>() {
-            @Override
-            public void onResponse(Call<JokeModel> call, Response<JokeModel> response) {
-                String joke = response.body().getJoke();
-                progressBar.setVisibility(View.INVISIBLE);
-                textView.setVisibility(View.VISIBLE);
-                textView.setText(joke.replaceAll("&quot;", "\""));
-                Log.d("TAG",response.body().getJoke());
+    @Override
+    public void setTextViewVisibility(int visibility) {
+        textView.setVisibility(visibility);
+    }
 
-            }
+    @Override
+    public void setProgressBarVisibility(int visibility) {
+        progressBar.setVisibility(visibility);
+    }
 
-            @Override
-            public void onFailure(Call<JokeModel> call, Throwable t) {
-                textView.setText(t.toString());
-            }
-        });
+    @Override
+    public void setTextViewText(String string) {
+        textView.setText(string);
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (jokeModelCall != null){
+            jokeModelCall.cancel();
+        }
     }
 }

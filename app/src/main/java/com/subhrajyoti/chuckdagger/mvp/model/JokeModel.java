@@ -1,4 +1,4 @@
-package com.subhrajyoti.chuckdagger.model;
+package com.subhrajyoti.chuckdagger.mvp.model;
 
 public class JokeModel {
 
