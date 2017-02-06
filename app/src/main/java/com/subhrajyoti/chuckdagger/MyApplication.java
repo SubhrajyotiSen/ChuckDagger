@@ -1,28 +1,32 @@
 package com.subhrajyoti.chuckdagger;
 
+import android.app.Activity;
 import android.app.Application;
 
-import com.subhrajyoti.chuckdagger.dagger.component.DaggerNetComponent;
-import com.subhrajyoti.chuckdagger.dagger.component.NetComponent;
+import com.subhrajyoti.chuckdagger.dagger.component.ApplicationComponent;
+import com.subhrajyoti.chuckdagger.dagger.component.DaggerApplicationComponent;
 import com.subhrajyoti.chuckdagger.dagger.module.AppModule;
-import com.subhrajyoti.chuckdagger.dagger.module.NetModule;
 
 public class MyApplication extends Application {
 
-    private NetComponent mNetComponent;
-    private final String URL = "http://api.icndb.com/";
+    private ApplicationComponent applicationComponent;
+
+    public static MyApplication get(Activity activity) {
+        return (MyApplication) activity.getApplication();
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        mNetComponent = DaggerNetComponent.builder()
+        applicationComponent = DaggerApplicationComponent.builder()
                 .appModule(new AppModule(this))
-                .netModule(new NetModule(URL))
                 .build();
+
     }
 
-    public NetComponent getNetComponent() {
-        return mNetComponent;
+    public ApplicationComponent getApplicationComponent(){
+        return applicationComponent;
     }
+
+
 }

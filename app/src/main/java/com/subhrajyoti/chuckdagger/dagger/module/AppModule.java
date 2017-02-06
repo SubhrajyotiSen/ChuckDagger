@@ -2,6 +2,8 @@ package com.subhrajyoti.chuckdagger.dagger.module;
 
 import android.app.Application;
 
+import com.subhrajyoti.chuckdagger.dagger.scope.ApplicationScope;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -16,7 +18,7 @@ public class AppModule {
         this.application = application;
     }
 
-    @Singleton
+    @ApplicationScope
     @Provides
     Application provideApplication(){
         return application;

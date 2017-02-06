@@ -15,6 +15,9 @@ import android.widget.TextView;
 
 import com.subhrajyoti.chuckdagger.MyApplication;
 import com.subhrajyoti.chuckdagger.R;
+import com.subhrajyoti.chuckdagger.dagger.component.DaggerNetworkComponent;
+import com.subhrajyoti.chuckdagger.dagger.component.NetworkComponent;
+import com.subhrajyoti.chuckdagger.dagger.module.NetModule;
 import com.subhrajyoti.chuckdagger.model.JokeModel;
 import com.subhrajyoti.chuckdagger.retrofit.RestAPI;
 
@@ -34,13 +37,20 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton floatingActionButton;
     private Toolbar toolbar;
     private Call<JokeModel> joke;
+    private final String URL = "http://api.icndb.com/";
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ((MyApplication) getApplication()).getNetComponent().inject(this);
+
+        NetworkComponent networkComponent = DaggerNetworkComponent.builder()
+                .netModule(new NetModule(URL))
+                .applicationComponent(MyApplication.get(this).getApplicationComponent())
+                .build();
+        networkComponent.inject(this);
 
         textView = (TextView) findViewById(R.id.textView);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
