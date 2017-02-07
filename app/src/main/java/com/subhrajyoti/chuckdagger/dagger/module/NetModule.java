@@ -18,9 +18,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class NetModule {
     private String mBaseUrl;
+    private Application application;
 
-    public NetModule(String mBaseUrl) {
+    public NetModule(String mBaseUrl, Application application) {
         this.mBaseUrl = mBaseUrl;
+        this.application = application;
     }
 
 
@@ -55,5 +57,11 @@ public class NetModule {
                 .baseUrl(mBaseUrl)
                 .client(okHttpClient)
                 .build();
+    }
+
+    @Provides
+    @ActivityScope
+    Application application() {
+        return application;
     }
 }

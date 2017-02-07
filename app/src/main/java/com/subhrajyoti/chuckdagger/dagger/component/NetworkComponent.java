@@ -7,7 +7,7 @@ import com.subhrajyoti.chuckdagger.MainActivity;
 import dagger.Component;
 
 @ActivityScope
-@Component(modules = {NetModule.class}, dependencies = {ApplicationComponent.class})
+@Component(modules = {NetModule.class})
 public interface NetworkComponent {
     void injectMainActivity(MainActivity activity);
 }

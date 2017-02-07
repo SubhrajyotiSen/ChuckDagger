@@ -15,14 +15,12 @@ import android.widget.TextView;
 import com.subhrajyoti.chuckdagger.dagger.component.DaggerNetworkComponent;
 import com.subhrajyoti.chuckdagger.dagger.component.NetworkComponent;
 import com.subhrajyoti.chuckdagger.dagger.module.NetModule;
-import com.subhrajyoti.chuckdagger.mvp.model.JokeModel;
 import com.subhrajyoti.chuckdagger.mvp.presenter.MainPresenter;
 import com.subhrajyoti.chuckdagger.mvp.view.MainView;
 import com.subhrajyoti.chuckdagger.retrofit.RestAPI;
 
 import javax.inject.Inject;
 
-import retrofit2.Call;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity implements MainView {
@@ -35,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
     Toolbar toolbar;
     private final String URL = "http://api.icndb.com/";
     private MainPresenter mainPresenter;
-    private Call<JokeModel> jokeModelCall;
 
 
 
@@ -45,8 +42,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         setContentView(R.layout.activity_main);
 
         NetworkComponent networkComponent = DaggerNetworkComponent.builder()
-                .netModule(new NetModule(URL))
-                .applicationComponent(MyApplication.get(this).getApplicationComponent())
+                .netModule(new NetModule(URL, this.getApplication()))
                 .build();
         networkComponent.injectMainActivity(this);
 
@@ -57,11 +53,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
         floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        jokeModelCall = retrofit.create(RestAPI.class).getJoke();
+
+        mainPresenter.newJoke(retrofit.create(RestAPI.class).getJoke());
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainPresenter.newJoke(jokeModelCall);
+                mainPresenter.newJoke(retrofit.create(RestAPI.class).getJoke());
             }
         });
 
@@ -114,11 +111,4 @@ public class MainActivity extends AppCompatActivity implements MainView {
         textView.setText(string);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (jokeModelCall != null){
-            jokeModelCall.cancel();
-        }
-    }
 }
