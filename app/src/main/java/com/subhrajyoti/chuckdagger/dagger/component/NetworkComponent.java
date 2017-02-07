@@ -1,13 +1,15 @@
 package com.subhrajyoti.chuckdagger.dagger.component;
 
-import com.subhrajyoti.chuckdagger.dagger.module.NetModule;
-import com.subhrajyoti.chuckdagger.dagger.scope.ActivityScope;
-import com.subhrajyoti.chuckdagger.MainActivity;
+import com.subhrajyoti.chuckdagger.dagger.module.ApplicationModule;
+import com.subhrajyoti.chuckdagger.dagger.module.NetworkModule;
+import com.subhrajyoti.chuckdagger.dagger.scope.CustomScope;
 
 import dagger.Component;
+import retrofit2.Retrofit;
 
-@ActivityScope
-@Component(modules = {NetModule.class})
+@CustomScope
+@Component(modules = {NetworkModule.class, ApplicationModule.class})
 public interface NetworkComponent {
-    void injectMainActivity(MainActivity activity);
+
+    Retrofit retrofit();
 }

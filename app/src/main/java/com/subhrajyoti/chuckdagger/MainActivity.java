@@ -12,27 +12,22 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.subhrajyoti.chuckdagger.dagger.component.DaggerNetworkComponent;
-import com.subhrajyoti.chuckdagger.dagger.component.NetworkComponent;
-import com.subhrajyoti.chuckdagger.dagger.module.NetModule;
+import com.subhrajyoti.chuckdagger.dagger.component.DaggerActivityComponent;
+import com.subhrajyoti.chuckdagger.dagger.module.ActivityModule;
 import com.subhrajyoti.chuckdagger.mvp.presenter.MainPresenter;
 import com.subhrajyoti.chuckdagger.mvp.view.MainView;
 
 import javax.inject.Inject;
 
-import retrofit2.Retrofit;
-
-@SuppressWarnings("FieldCanBeLocal")
 public class MainActivity extends AppCompatActivity implements MainView {
 
+
     @Inject
-    Retrofit retrofit;
+    MainPresenter mainPresenter;
     TextView textView;
     ProgressBar progressBar;
     FloatingActionButton floatingActionButton;
     Toolbar toolbar;
-    private final String URL = "http://api.icndb.com/";
-    private MainPresenter mainPresenter;
 
 
 
@@ -41,12 +36,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        NetworkComponent networkComponent = DaggerNetworkComponent.builder()
-                .netModule(new NetModule(URL, this.getApplication()))
-                .build();
-        networkComponent.injectMainActivity(this);
+        DaggerActivityComponent.builder()
+                .networkComponent(MyApplication.get(this).getNetworkComponent())
+                .activityModule(new ActivityModule(this))
+                .build()
+                .inject(this);
 
-        mainPresenter = new MainPresenter(this);
 
         textView = (TextView) findViewById(R.id.textView);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -54,11 +49,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mainPresenter.newJoke(retrofit);
+        mainPresenter.newJoke();
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainPresenter.newJoke(retrofit);
+                mainPresenter.newJoke();
             }
         });
 

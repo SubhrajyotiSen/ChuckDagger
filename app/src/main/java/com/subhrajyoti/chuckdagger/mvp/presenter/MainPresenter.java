@@ -6,6 +6,8 @@ import com.subhrajyoti.chuckdagger.mvp.model.JokeModel;
 import com.subhrajyoti.chuckdagger.mvp.view.MainView;
 import com.subhrajyoti.chuckdagger.retrofit.RestAPI;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -14,12 +16,15 @@ import retrofit2.Retrofit;
 public class MainPresenter {
 
     private MainView mainView;
+    private Retrofit retrofit;
 
-    public MainPresenter(MainView mainView) {
+    @Inject
+    MainPresenter(MainView mainView, Retrofit retrofit) {
         this.mainView = mainView;
+        this.retrofit = retrofit;
     }
 
-    public void newJoke(final Retrofit retrofit) {
+    public void newJoke() {
         mainView.setTextViewVisibility(View.INVISIBLE);
         mainView.setProgressBarVisibility(View.VISIBLE);
         retrofit.create(RestAPI.class).getJoke()
