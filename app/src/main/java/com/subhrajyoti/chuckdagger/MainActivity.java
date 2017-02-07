@@ -17,12 +17,12 @@ import com.subhrajyoti.chuckdagger.dagger.component.NetworkComponent;
 import com.subhrajyoti.chuckdagger.dagger.module.NetModule;
 import com.subhrajyoti.chuckdagger.mvp.presenter.MainPresenter;
 import com.subhrajyoti.chuckdagger.mvp.view.MainView;
-import com.subhrajyoti.chuckdagger.retrofit.RestAPI;
 
 import javax.inject.Inject;
 
 import retrofit2.Retrofit;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class MainActivity extends AppCompatActivity implements MainView {
 
     @Inject
@@ -54,11 +54,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mainPresenter.newJoke(retrofit.create(RestAPI.class).getJoke());
+        mainPresenter.newJoke(retrofit);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainPresenter.newJoke(retrofit.create(RestAPI.class).getJoke());
+                mainPresenter.newJoke(retrofit);
             }
         });
 

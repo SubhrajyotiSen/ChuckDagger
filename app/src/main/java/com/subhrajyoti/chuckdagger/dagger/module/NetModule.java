@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.subhrajyoti.chuckdagger.dagger.scope.ActivityScope;
 import com.subhrajyoti.chuckdagger.mvp.model.JokeModel;
 import com.subhrajyoti.chuckdagger.retrofit.MyDeserializer;
@@ -51,11 +52,12 @@ public class NetModule {
 
     @Provides
     @ActivityScope
-    Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
+    Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient, RxJava2CallAdapterFactory rxJava2CallAdapterFactory) {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .baseUrl(mBaseUrl)
                 .client(okHttpClient)
+                .addCallAdapterFactory(rxJava2CallAdapterFactory)
                 .build();
     }
 
@@ -64,4 +66,12 @@ public class NetModule {
     Application application() {
         return application;
     }
+
+    @Provides
+    @ActivityScope
+    RxJava2CallAdapterFactory rxJava2CallAdapterFactory(){
+        return RxJava2CallAdapterFactory.create();
+    }
+
+
 }

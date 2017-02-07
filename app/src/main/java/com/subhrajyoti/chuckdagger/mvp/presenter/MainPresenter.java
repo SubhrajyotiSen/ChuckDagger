@@ -1,14 +1,15 @@
 package com.subhrajyoti.chuckdagger.mvp.presenter;
 
-import android.util.Log;
 import android.view.View;
 
 import com.subhrajyoti.chuckdagger.mvp.model.JokeModel;
 import com.subhrajyoti.chuckdagger.mvp.view.MainView;
+import com.subhrajyoti.chuckdagger.retrofit.RestAPI;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
 
 public class MainPresenter {
 
@@ -18,27 +19,21 @@ public class MainPresenter {
         this.mainView = mainView;
     }
 
-    public void newJoke(final Call<JokeModel> joke) {
+    public void newJoke(final Retrofit retrofit) {
         mainView.setTextViewVisibility(View.INVISIBLE);
         mainView.setProgressBarVisibility(View.VISIBLE);
-        joke.enqueue(new Callback<JokeModel>() {
-            @Override
-            public void onResponse(Call<JokeModel> call, Response<JokeModel> response) {
-                String jokeString = response.body().getJoke();
-                mainView.setProgressBarVisibility(View.INVISIBLE);
-                mainView.setTextViewVisibility(View.VISIBLE);
-                mainView.setTextViewText(jokeString.replaceAll("&quot;", "\""));
-                Log.d("TAG",response.body().getJoke());
-                joke.cancel();
+        retrofit.create(RestAPI.class).getJoke()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<JokeModel>() {
+                    @Override
+                    public void accept(JokeModel jokeModel) throws Exception {
+                        mainView.setProgressBarVisibility(View.INVISIBLE);
+                        mainView.setTextViewVisibility(View.VISIBLE);
+                        mainView.setTextViewText(jokeModel.getJoke().replaceAll("&quot;", "\""));
 
-            }
-
-            @Override
-            public void onFailure(Call<JokeModel> call, Throwable t) {
-                mainView.setTextViewText(t.toString());
-                joke.cancel();
-            }
-        });
+                    }
+                });
 
 
     }
